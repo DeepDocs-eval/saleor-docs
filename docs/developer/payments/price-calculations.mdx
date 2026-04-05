@@ -151,7 +151,7 @@ The following calculation rules apply to events that share the same `pspReferenc
 
 #### Cancel Pending Value ([`transactionItem.cancelPendingAmount`](/api-reference/payments/objects/transaction-item#cancel-pending-amount))
   - **GIVEN** there is a `CANCEL_REQUEST` event:
-    - **WHEN** there is no `CANCEL_FAILURE` or `CANCEL_REQUEST`
+    - **WHEN** there is no `CANCEL_FAILURE` or `CANCEL_SUCCESS`
       - **THEN** value increases by the `CANCEL_REQUEST` event's amount
 
 
@@ -195,9 +195,9 @@ totalCharged = (
     sum(transaction.amountCharged for transaction in transactions)
     + sum(transaction.amountChargePending for transaction in transactions)
 )
-```
-
-and `totalGrantedRefund` is a total of all refunds issued to the customer:
-```
+totalCharged = (
+    sum(transaction.chargedAmount for transaction in transactions)
+    + sum(transaction.chargePendingAmount for transaction in transactions)
+)
 totalGrantedRefund = sum(grantedRefund.amount for grantedRefund in grantedRefunds)
 ```
